@@ -4,11 +4,11 @@ import com.example.calender.dto.ScheduleResponseDto;
 import com.example.calender.entity.Schedule;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ScheduleReopository {
     ScheduleResponseDto saveSchedule(Schedule schedule);
-    List<ScheduleResponseDto> findMemoByMonth();
-    List<ScheduleResponseDto> findMemoByName();
-    List<ScheduleResponseDto> findMemoByPeriod();
+    List<ScheduleResponseDto> findAllSchedule();
+    Optional<Schedule> findscheduleById(Long id);
     void deleteMemo(Long id);
 }

@@ -2,30 +2,38 @@ package com.example.calender.controller;
 
 import com.example.calender.dto.ScheduleRequestDto;
 import com.example.calender.dto.ScheduleResponseDto;
+import com.example.calender.entity.Schedule;
 import com.example.calender.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/schedules")
 public class ShceduleController {
-    private final ScheduleService shceduleService;
+    private final ScheduleService scheduleService;
 
-    public ShceduleController(ScheduleService shceduleService){
-        this.shceduleService = shceduleService;
+    public ShceduleController(ScheduleService scheduleService){
+        this.scheduleService = scheduleService;
     }
 
     //추가
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createShcedule(@RequestBody ScheduleRequestDto dto){
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto){
 
-        return new ResponseEntity<>(shceduleService.saveSchedule(dto), HttpStatus.CREATED);
+        return new ResponseEntity<>(scheduleService.saveSchedule(dto), HttpStatus.CREATED);
     }
     //조회
     @GetMapping
-    public ScheduleResponseDto findShceduleByMonth(){
-        return null;
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(){
+        return new ResponseEntity<List<ScheduleResponseDto>>(scheduleService.findAllSchedule(), HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Schedule>> findAllSchedule(@PathVariable Long id){
+        return new ResponseEntity<Optional<Schedule>>(scheduleService.findscheduleById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

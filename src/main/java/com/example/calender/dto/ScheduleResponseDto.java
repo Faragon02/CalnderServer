@@ -10,7 +10,7 @@ import lombok.Getter;
 public class ScheduleResponseDto {
     private Long id;
     @Getter(onMethod = @__( @JsonIgnore))
-    private String user_pw;
+    private String userPW;
     private String name;
     private String todo;
     private String createdAt;
@@ -19,17 +19,18 @@ public class ScheduleResponseDto {
 
     public ScheduleResponseDto(Schedule schedule){
         this.id = schedule.getId();
-        this.user_pw = schedule.getUser_pw();
+        this.userPW = schedule.getUserPW();
         this.name = schedule.getName();
         this.todo = schedule.getTodo();
         this.createdAt =schedule.getCreatedAt();
         this.updatedAt =schedule.getUpdatedAt();
     }
 
-    public ScheduleResponseDto(long l, String userPw, String name, String todo) {
+    public ScheduleResponseDto(long l, String userPW, String name, String todo) {
         this.id = l;
-        this.user_pw = userPw;
+        this.userPW = userPW;
         this.name = name;
         this.todo = todo;
+        this.createdAt =createdAt;
     }
 }

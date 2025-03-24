@@ -10,22 +10,31 @@ public class Schedule {
 
     private Long id;
     private String todo;
-    private String user_pw;
+    private String userPW;
     private String name;
 
     private String createdAt;
     private String updatedAt;
 
-    public Schedule(String user_pw, String name , String todo){
+    public Schedule(String userPW, String name , String todo){
 
-        this.user_pw = user_pw;
+        this.userPW = userPW;
+        this.name = name;
+        this.todo = todo;
+    }
+    public Schedule(Long id , String userPW, String name , String todo){
+        this.id = id;
+        this.userPW = userPW;
         this.name = name;
         this.todo = todo;
     }
     /*
     * 일정 내용 업데이트
     */
-    public void update(String todo){
+    public void update(Long id,String userPW, String name , String todo){
+        this.id = id;
+        this.userPW = userPW;
+        this.name = name;
         this.todo = todo;
     }
 }

@@ -7,6 +7,7 @@ import com.example.calender.repository.ScheduleReopository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -22,24 +23,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
 
-        Schedule schedule = new Schedule(dto.getUser_pw(), dto.getName(), dto.getTodo());
+        Schedule schedule = new Schedule(dto.getUserPW(), dto.getName(), dto.getTodo());
 
         return scheduleReopository.saveSchedule(schedule);
     }
 
     @Override
-    public List<ScheduleResponseDto> findMemoByMonth() {
-        return List.of();
+    public List<ScheduleResponseDto> findAllSchedule() {
+        return scheduleReopository.findAllSchedule();
     }
 
     @Override
-    public List<ScheduleResponseDto> findMemoByName() {
-        return List.of();
-    }
-
-    @Override
-    public List<ScheduleResponseDto> findMemoByPeriod() {
-        return List.of();
+    public Optional<Schedule> findscheduleById(Long id) {
+        return scheduleReopository.findscheduleById(id);
     }
 
     @Override
