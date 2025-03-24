@@ -3,24 +3,20 @@ package com.example.calender.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class Shcedule {
+public class Schedule {
 
-    @Setter
     private Long id;
     private String todo;
     private String user_pw;
     private String name;
 
-    private String created_date;
-    private String updated_date;
+    private String createdAt;
+    private String updatedAt;
 
-    public Shcedule(String user_pw, String name , String todo){
+    public Schedule(String user_pw, String name , String todo){
 
         this.user_pw = user_pw;
         this.name = name;
