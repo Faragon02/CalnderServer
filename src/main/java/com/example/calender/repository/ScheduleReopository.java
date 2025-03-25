@@ -10,5 +10,7 @@ public interface ScheduleReopository {
     ScheduleResponseDto saveSchedule(Schedule schedule);
     List<ScheduleResponseDto> findAllSchedule();
     Optional<Schedule> findscheduleById(Long id);
-    void deleteMemo(Long id);
+    int updateSchedule(Long id, String name, String todo);
+    int updateName(Long id, String name);
+    int deleteSchedule(Long id);
 }

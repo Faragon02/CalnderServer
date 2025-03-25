@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,17 +37,16 @@ public class JdbcTemplateShceduleRepository implements ScheduleReopository {
         parameters.put("user_pw", schedule.getUserPW());
         parameters.put("name", schedule.getName());
         parameters.put("todo", schedule.getTodo());
-        parameters.put("createdAt", schedule.getCreatedAt());
-
-
+        parameters.put("createdAt", LocalDateTime.now());
+        parameters.put("updatedAt", LocalDateTime.now());
         // 저장 후 생성된 key값을 Number 타입으로 반환하는 메서드
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
-        return new ScheduleResponseDto(key.longValue(), schedule.getUserPW(), schedule.getName(), schedule.getTodo());
+        return new ScheduleResponseDto(key.longValue(), schedule.getUserPW(), schedule.getName(), schedule.getTodo(), schedule.getCreatedAt(),schedule.getUpdatedAt());
     }
 
     @Override
     public List<ScheduleResponseDto> findAllSchedule() {
-        return jdbcTemplate.query("Select *  from schedule_data WHERE updatedAt is not NULL or name is not null", scheduleRowMapper());
+        return jdbcTemplate.query("SELECT *  FROM schedule_data WHERE updatedAt is not NULL or name is not NULL", scheduleRowMapper());
     }
     private RowMapper<ScheduleResponseDto> scheduleRowMapper(){
         return new RowMapper<ScheduleResponseDto>() {
@@ -56,7 +56,9 @@ public class JdbcTemplateShceduleRepository implements ScheduleReopository {
                         rs.getLong("id"),
                         rs.getString("user_pw"),
                         rs.getString("name"),
-                        rs.getString("todo")
+                        rs.getString("todo"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt")
                 );
             }
         };
@@ -64,7 +66,7 @@ public class JdbcTemplateShceduleRepository implements ScheduleReopository {
 
     @Override
     public Optional<Schedule> findscheduleById(@PathVariable Long id) {
-        List<Schedule> result = jdbcTemplate.query("select * from schedule_data where id = ?", scheduleRowMapperV2(), id);
+        List<Schedule> result = jdbcTemplate.query("SELECT * FROM schedule_data WHERE id = ?", scheduleRowMapperV2(), id);
         return result.stream().findAny();
     }
     private RowMapper<Schedule> scheduleRowMapperV2(){
@@ -75,18 +77,27 @@ public class JdbcTemplateShceduleRepository implements ScheduleReopository {
                         rs.getLong("id"),
                         rs.getString("user_pw"),
                         rs.getString("name"),
-                        rs.getString("todo")
+                        rs.getString("todo"),
+                        rs.getString("createdAt"),
+                        rs.getString("updatedAt")
                 );
             }
         };
     }
-//    @Override
-//    public List<ScheduleResponseDto> findscheduleByPeriod() {
-//        return List.of();
-//    }
 
     @Override
-    public void deleteMemo(Long id) {
+    public int updateSchedule(@PathVariable Long id, String name, String todo) {
+        return jdbcTemplate.update("UPDATE schedule_data set name = ? , todo = ? ,updatedAT=? where id=?", name, todo, LocalDateTime.now(), id);
+    }
+
+    @Override
+    public int updateName(Long id, String name) {
+        return jdbcTemplate.update("UPDATE schedule_data set name = ? ,updatedAT=? where id = ?" , name, LocalDateTime.now(), id);
+    }
+
+    @Override
+    public int deleteSchedule(Long id) {
+        return jdbcTemplate.update("DELETE FROM schedule_data WHERE id = ?" , id);
 
     }
 }

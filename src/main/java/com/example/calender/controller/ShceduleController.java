@@ -37,12 +37,24 @@ public class ShceduleController {
     }
 
     @PutMapping("/{id}")
-    public ScheduleResponseDto updateShedule(){
-        return  null;
+    public  ResponseEntity<ScheduleResponseDto> updateShedule(
+            @PathVariable Long id,
+    @RequestBody ScheduleRequestDto dto){
+
+        return  new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getName(), dto.getTodo()), HttpStatus.OK);
     }
+    @PatchMapping("/{id}")
+    public  ResponseEntity<ScheduleResponseDto> updateName(
+            @PathVariable Long id,
+            @RequestBody ScheduleRequestDto dto){
+
+        return  new ResponseEntity<>(scheduleService.updateName(id, dto.getName()), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
-    public ScheduleResponseDto deleteShcedule(@PathVariable Long id){
-        return null;
+    public ResponseEntity<Void> deleteShcedule(@PathVariable Long id){
+        scheduleService.deleteMemo(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

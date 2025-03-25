@@ -26,11 +26,12 @@ public class ScheduleResponseDto {
         this.updatedAt =schedule.getUpdatedAt();
     }
 
-    public ScheduleResponseDto(long l, String userPW, String name, String todo) {
+    public ScheduleResponseDto(long l, String userPW, String name, String todo, String createdAt, String updatedAt) {
         this.id = l;
         this.userPW = userPW;
         this.name = name;
         this.todo = todo;
         this.createdAt =createdAt;
+        this.updatedAt = updatedAt;
     }
 }

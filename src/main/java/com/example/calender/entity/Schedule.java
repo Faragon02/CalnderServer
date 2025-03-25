@@ -22,11 +22,12 @@ public class Schedule {
         this.name = name;
         this.todo = todo;
     }
-    public Schedule(Long id , String userPW, String name , String todo){
+    public Schedule(Long id , String userPW, String name , String todo,String createAt){
         this.id = id;
         this.userPW = userPW;
         this.name = name;
         this.todo = todo;
+        this.createdAt = createAt;
     }
     /*
     * 일정 내용 업데이트
