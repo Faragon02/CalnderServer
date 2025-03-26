@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LogingController {
     private final Logger log = LoggerFactory.getLogger(getClass());
-
+    //데이터 확인용으로 사용 한 Controller 입니다.
     @RequestMapping(value = "/loging")
     public void home() {
         System.out.println("LogingController loging");
