@@ -26,19 +26,23 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
 
-        Schedule schedule = new Schedule(dto.getUserPW(), dto.getName(), dto.getTodo());
+        Schedule schedule = new Schedule(dto.getUserPw(),dto.getName(), dto.getTodo());
 
         return scheduleReopository.saveSchedule(schedule);
     }
 
     @Override
-    public List<ScheduleResponseDto> findAllSchedule() {
-        return scheduleReopository.findAllSchedule();
+    public List<ScheduleResponseDto> findAllSchedule(String day, String name) {
+        return scheduleReopository.findAllSchedule(day, name);
     }
 
     @Override
-    public Optional<Schedule> findscheduleById(Long id) {
-        return scheduleReopository.findscheduleById(id);
+    public ScheduleResponseDto findscheduleById(Long id) {
+        Optional<Schedule> schedule =scheduleReopository.findscheduleById(id);
+        if(schedule.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
+        }
+        return new ScheduleResponseDto(schedule.get());
     }
 
     @Transactional
@@ -65,10 +69,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    public void deleteMemo(Long id) {
+    public void deleteMemo(Long id, String userPw) {
 
-        int deleteRow = scheduleReopository.deleteSchedule(id);
-        scheduleReopository.deleteSchedule(id);
+        int deleteRow = scheduleReopository.deleteSchedule(id, userPw);
+        scheduleReopository.deleteSchedule(id, userPw);
         if(deleteRow == 0){
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);

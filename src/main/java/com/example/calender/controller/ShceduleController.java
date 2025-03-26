@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/schedules")
@@ -28,19 +27,19 @@ public class ShceduleController {
     }
     //조회
     @GetMapping
-    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(){
-        return new ResponseEntity<List<ScheduleResponseDto>>(scheduleService.findAllSchedule(), HttpStatus.OK);
+    public ResponseEntity<List<ScheduleResponseDto>> findAllSchedule(@RequestParam(required = false) String day, @RequestParam(required = false) String name ){
+
+        return new ResponseEntity<List<ScheduleResponseDto>>(scheduleService.findAllSchedule(day, name), HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Schedule>> findAllSchedule(@PathVariable Long id){
-        return new ResponseEntity<Optional<Schedule>>(scheduleService.findscheduleById(id), HttpStatus.OK);
+    public ResponseEntity<ScheduleResponseDto> findscheduleById(@PathVariable Long id){
+        return new ResponseEntity<> (scheduleService.findscheduleById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public  ResponseEntity<ScheduleResponseDto> updateShedule(
             @PathVariable Long id,
     @RequestBody ScheduleRequestDto dto){
-
         return  new ResponseEntity<>(scheduleService.updateSchedule(id, dto.getName(), dto.getTodo()), HttpStatus.OK);
     }
     @PatchMapping("/{id}")
@@ -52,8 +51,9 @@ public class ShceduleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteShcedule(@PathVariable Long id){
-        scheduleService.deleteMemo(id);
+    public ResponseEntity<Void> deleteShcedule(@PathVariable Long id,
+                                               @RequestBody ScheduleRequestDto dto){
+        scheduleService.deleteMemo(id, dto.getUserPw());
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

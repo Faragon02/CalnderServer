@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface ScheduleService {
     ScheduleResponseDto saveSchedule(ScheduleRequestDto dto);
-    List<ScheduleResponseDto> findAllSchedule();
-    Optional<Schedule> findscheduleById(Long id);
+    List<ScheduleResponseDto> findAllSchedule(String day, String name);
+    ScheduleResponseDto findscheduleById(Long id);
     ScheduleResponseDto updateSchedule(Long id, String name, String todo);
     ScheduleResponseDto updateName(Long id, String name);
-    void deleteMemo(Long id);
+    void deleteMemo(Long id, String userPw);
 }
