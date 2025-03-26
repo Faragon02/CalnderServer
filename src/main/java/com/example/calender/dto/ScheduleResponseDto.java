@@ -6,32 +6,31 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class ScheduleResponseDto {
     private Long id;
     @Getter(onMethod = @__( @JsonIgnore))
-    private String userPW;
+    private String userPw;
     private String name;
     private String todo;
-    private String createdAt;
-    private String updatedAt;
+    private String created_at;
+    private String updated_at;
 
 
     public ScheduleResponseDto(Schedule schedule){
         this.id = schedule.getId();
-        this.userPW = schedule.getUserPW();
+        this.userPw = schedule.getUserPw();
         this.name = schedule.getName();
         this.todo = schedule.getTodo();
-        this.createdAt =schedule.getCreatedAt();
-        this.updatedAt =schedule.getUpdatedAt();
+        this.created_at =schedule.getCreated_at();
+        this.updated_at =schedule.getUpdated_at();
     }
 
-    public ScheduleResponseDto(long l, String userPW, String name, String todo, String createdAt, String updatedAt) {
-        this.id = l;
-        this.userPW = userPW;
+    public ScheduleResponseDto(Long id, String userPw, String name, String todo, String created_at, String updated_at) {
+        this.id = id;
+        this.userPw = userPw;
         this.name = name;
         this.todo = todo;
-        this.createdAt =createdAt;
-        this.updatedAt = updatedAt;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 }
