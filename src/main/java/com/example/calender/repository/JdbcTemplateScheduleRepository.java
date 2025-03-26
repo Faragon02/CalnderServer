@@ -2,7 +2,6 @@ package com.example.calender.repository;
 
 import com.example.calender.dto.ScheduleResponseDto;
 import com.example.calender.entity.Schedule;
-import com.example.calender.logController.LogingController;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,11 +15,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-public class JdbcTemplateShceduleRepository implements ScheduleReopository {
+public class JdbcTemplateScheduleRepository implements ScheduleReopository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcTemplateShceduleRepository(DataSource dataSource){
+    public JdbcTemplateScheduleRepository(DataSource dataSource){
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     @Override
@@ -33,7 +32,7 @@ public class JdbcTemplateShceduleRepository implements ScheduleReopository {
         parameters.put("name", schedule.getName());
         parameters.put("todo", schedule.getTodo());
         parameters.put("created_at", LocalDateTime.now());
-        //parameters.put("updated_at", LocalDateTime.now());
+        parameters.put("updated_at", LocalDateTime.now());
 
         // 저장 후 생성된 key값을 Number 타입으로 반환하는 메서드
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
