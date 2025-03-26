@@ -1,23 +1,21 @@
-# Shcedule API
+# Schedule API
 
-| 기능       | HTTP Method |       URL       | Path Variable | request                                                                                             | response                                                                                                                                                   |             상태              |
-|----------|:-----------:|:---------------:|:-------------:|:----------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------:|
-| 추가       |    POST     |   /shcedules    |               | {<br> "user_pw": "비밀번호",<br> "name" : "이름",<br> "todo" : "할 일" <br>}                                | {<br> "id" : 1,<br>"todo" : "할 일",<br> "createdAt" : 2025-03-24<br>} <br>                                                                                  | 성공:OK<br>실패:Bad_request<br> |
-| 월 별 조회   |     GET     |   /shcedules    |               | {<br>"month" : 3<br> {<br>                                                                          | [<br>&nbsp;&nbsp;{<br>&nbsp;&nbsp;"id" : 1,<br>&nbsp;&nbsp;"todo" : "할 일",<br>&nbsp;&nbsp;"createdAt" : 2025-03-24<br>&nbsp;&nbsp;}<br>&nbsp;]<br>}<br> | 성공:OK<br>실패:Bad_request<br> |
-| 작성자 글 조회 |     GET     |   /shcedules    |               | {<br>"name" : "name"<br>}                                                                           | {<br>"id" : 1,<br>"todo" : "할 일"<br>,<br>"createdAt" : 2025-03-24<br>}                                                                                  | 성공:OK<br>실패:NOT_request<br> |
-| 작성자 기간별 조회 |     GET     |   /shcedules    |               | {<br>startAt : 2025-03-01,<br>endAt : 2025-03-31<br>}                                               | {<br>"id" : 1,"todo" : "할 일"<br>,"createdAt" : 2025-03-24<br>}                                                                                          | 성공:OK<br>실패:NOT_request<br> |
-| 일정 내용 수정 |    PATCH    |   /shcedules/{id}    |   id (Long)  | {<br>"name" : "이름",<br>"todo" : "할 일"<br>}                                                          | {<br>"id" : 1,<br>"todo" : "할 일"<br>}                                                                                                                      | 성공:OK<br>실패:NOT_request<br> |
-| 일정 수정    |    PATCH    |   /shcedules/{id}    |   id (Long)   | {<br>"name" : "이름",<br>"todo" : "할 일",<br>"createdAt" : 2025-03-24,<br>"updatedAt" :2025-03-25<br>} | { <br>"id" : 1,<br>"todo" : "할 일",<br>"createdAt" : 2025-03-24,<br>"updatedAt": 2025-03-25<br>}                                                      | 성공:OK<br>실패:NOT_request<br> |
-| 단 건 삭제 |    DELETE   | /shcedules/{id} |   id (Long)   |                                                                                                     | {<br>"id" : 1,<br>"mes" : 삭제되었습니다.<br>}                                                                                                                    | 성공:OK<br>실패:NOT_request<br> |
+| 기능       | HTTP Method |       URL       | Path Variable |                                                       request Param                                                        | request                                                                               | response                                                                                                                                                                             |                상태                |
+|----------|:-----------:|:---------------:|:--------------:|:--------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------:|
+| 추가       |    POST     |   /shcedules    |                |                                                                                                                            | {<br>&nbsp; "userPw": "비밀번호",&nbsp;<br> "name" : "이름",&nbsp;<br> "todo" : "할 일" <br>} | {<br> &nbsp;"id" : 1,<br>&nbsp;"todo" : "내용",&nbsp;<br> "created_at" :null,&nbsp;<br> &nbsp;"updated_at" : null<br>} <br>                                                           |   성공:OK<br>실패:Bad_request<br>    |
+| 전체 조회    |     GET     |   /shcedules    |                | [둘다 참]<br>&nbsp;?day=조건&name=이름,<br>&nbsp; [날짜 만]<br>&nbsp;?day=조건<br>&nbsp;[이름 만]<br>&nbsp;?name=이름, [전체 조회]<br>&nbsp;공백 |                                                                                       | {<br>&nbsp;&nbsp;[<br>&nbsp;&nbsp;"id" : 1,<br>&nbsp;&nbsp;"todo" : "내용",<br>&nbsp;&nbsp;"created_at" : 2025-03-24<br>&nbsp;&nbsp;"updated_at": null<br>&nbsp;<br>&nbsp;]<br>}<br> |   성공:OK<br>실패:Bad_request<br>    |
+| 일정 내용 수정 |     PUT     |   /shcedules/{id}    |   id (Long)   |                                                                                                                            | {<br>&nbsp;"name" : "이름",<br>&nbsp;"todo" : "할 일"<br>}                                | {<br>&nbsp; "id": 2,<br>&nbsp; "name": "paragon",<br>&nbsp; "todo": "내용",<br>&nbsp; "created_at": "2025-03-26 00:25:25",<br>&nbsp;"updated_at": "2025-03-26 00:25:44"<br>&nbsp;}     |   성공:OK<br>실패:NotFound_request<br>    |
+| 작성자 수정   |    PATCH    |   /shcedules/{id}    |   id (Long)    |                                                                                                                            | {<br>&nbsp;"name": "Enermy",<br>&nbsp;"todo": "내용"<br>&nbsp;}                         | {<br>&nbsp;"id": 2,<br>&nbsp;"name": "Enermy",<br>&nbsp;"todo": "내용",<br>&nbsp;"created_at": "2025-03-26 00:25:25",<br>&nbsp; "updated_at": "2025-03-26 10:28:41"<br>&nbsp;}       |   성공:OK<br>실패:NotFound_request<br>    |
+| 단 건 삭제   |   DELETE    | /shcedules/{id} |   id (Long)    |                                                                                                                            | {<br>&nbsp;"userPw":"test1234"<br>&nbsp;}                                             |                                                                                                                                                                                      | 성공:OK<br>실패:NotFound_request<br> |
 
-# Shcedule DB
+# schedule_data
 
-| 칼럼           | 명칭     | 입력 Type   | Null 유무  |
-|--------------|--------|-----------|----------|
-| USER_PW      | 작성자 PW | VARCHAR    | NOT NULL |
-| NAME         | 작성자 이름 | VARCHAR    | NOT NULL |
-| ID           | 글 ID   | BIGINT    | NOT NULL |
-| TODO         | 내용     | VARCHAR   | NULL     |
-| CREATED_DATE | 작성일    | TIMESTEMP | NOT NULL |
-| UPDATED_DATE | 수정일    | TIMESTEMP | NULL     |
+| 칼럼         | 명칭     | 입력 Type   | Null 유무 |
+|------------|--------|-----------|------|
+| user_pw    | 작성자 PW | VARCHAR    | NOT NULL |
+| name       | 작성자 이름 | VARCHAR    | NOT NULL |
+| id         | 글 ID   | BIGINT    | NOT NULL |
+| todo       | 내용     | VARCHAR   | NULL |
+| created_at | 작성일    | TIMESTEMP | NULL |
+| updated_at | 수정일    | TIMESTEMP | NULL |
 
